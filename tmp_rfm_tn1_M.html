@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1000px;
+            height: 1000px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"group": "Disease", "id": "DOID:9744", "label": "type 1 diabetes mellitus", "labels": "type 1 diabetes mellitus", "shape": "dot", "size": 10, "value": 2.7651722152515704e-06}, {"group": "Gene", "id": 10219, "label": "KLRG1", "labels": "KLRG1", "shape": "dot", "size": 10, "value": 2.7824934115806677e-06}, {"group": "Gene", "id": 25865, "label": "PRKD2", "labels": "PRKD2", "shape": "dot", "size": 10, "value": 3.205496969687576e-06}, {"group": "Disease", "id": "DOID:14118", "label": "familial lipoprotein lipase deficiency", "labels": "familial lipoprotein lipase deficiency", "shape": "dot", "size": 10, "value": 2.8161161162011517e-06}, {"group": "Gene", "id": 4023, "label": "LPL", "labels": "LPL", "shape": "dot", "size": 10, "value": 2.86092096659887e-06}, {"group": "Gene", "id": 344, "label": "APOC2", "labels": "APOC2", "shape": "dot", "size": 10, "value": 2.833043990809377e-06}, {"group": "Disease", "id": "DOID:13809", "label": "familial combined hyperlipidemia", "labels": "familial combined hyperlipidemia", "shape": "dot", "size": 10, "value": 2.8814474433147552e-06}, {"group": "Gene", "id": 338, "label": "APOB", "labels": "APOB", "shape": "dot", "size": 10, "value": 2.6567560011711876e-06}, {"group": "Gene", "id": 7391, "label": "USF1", "labels": "USF1", "shape": "dot", "size": 10, "value": 2.8529157466058073e-06}, {"group": "Disease", "id": "DOID:10825", "label": "essential hypertension", "labels": "essential hypertension", "shape": "dot", "size": 10, "value": 2.7563251165929614e-06}, {"group": "Gene", "id": 1577, "label": "CYP3A5", "labels": "CYP3A5", "shape": "dot", "size": 10, "value": 2.780078830255661e-06}, {"group": "Disease", "id": "DOID:10230", "label": "aortic atherosclerosis", "labels": "aortic atherosclerosis", "shape": "dot", "size": 10, "value": 2.826492245983698e-06}, {"group": "Gene", "id": 348, "label": "APOE", "labels": "APOE", "shape": "dot", "size": 10, "value": 2.8428053834911934e-06}, {"group": "Disease", "id": "DOID:13810", "label": "familial hypercholesterolemia", "labels": "familial hypercholesterolemia", "shape": "dot", "size": 10, "value": 2.8843677921170438e-06}, {"group": "Gene", "id": 63036, "label": "CELA2A", "labels": "CELA2A", "shape": "dot", "size": 10, "value": 3.212837034046364e-06}, {"group": "Disease", "id": "DOID:9455", "label": "lipid storage disease", "labels": "lipid storage disease", "shape": "dot", "size": 10, "value": 2.820131206091345e-06}, {"group": "Gene", "id": 10221, "label": "TRIB1", "labels": "TRIB1", "shape": "dot", "size": 10, "value": 2.949818518831964e-06}, {"group": "Disease", "id": "DOID:14654", "label": "prostatitis", "labels": "prostatitis", "shape": "dot", "size": 10, "value": 2.7923916934784957e-06}, {"group": "Gene", "id": 695, "label": "BTK", "labels": "BTK", "shape": "dot", "size": 10, "value": 3.02199647942795e-06}, {"group": "Disease", "id": "DOID:7148", "label": "rheumatoid arthritis", "labels": "rheumatoid arthritis", "shape": "dot", "size": 10, "value": 2.6510887154687325e-06}, {"group": "Gene", "id": 116985, "label": "ARAP1", "labels": "ARAP1", "shape": "dot", "size": 10, "value": 3.1128922531012095e-06}, {"group": "Disease", "id": "DOID:12336", "label": "male infertility", "labels": "male infertility", "shape": "dot", "size": 10, "value": 2.815814323437533e-06}, {"group": "Gene", "id": 346673, "label": "STRA8", "labels": "STRA8", "shape": "dot", "size": 10, "value": 2.990712752016912e-06}, {"group": "Disease", "id": "DOID:10808", "label": "gastric ulcer", "labels": "gastric ulcer", "shape": "dot", "size": 10, "value": 2.6261931280499893e-06}, {"group": "Gene", "id": 4650, "label": "MYO9B", "labels": "MYO9B", "shape": "dot", "size": 10, "value": 3.4515457001147197e-06}, {"group": "BiologicalProcess", "id": "GO:0006968", "label": "cellular defense response", "labels": "cellular defense response", "shape": "dot", "size": 10, "value": 3.154164485547679e-06}, {"group": "BiologicalProcess", "id": "GO:0089700", "label": "protein kinase D signaling", "labels": "protein kinase D signaling", "shape": "dot", "size": 10, "value": 3.0955049368230902e-06}, {"group": "BiologicalProcess", "id": "GO:0010890", "label": "positive regulation of sequestering of triglyceride", "labels": "positive regulation of sequestering of triglyceride", "shape": "dot", "size": 10, "value": 3.028676384846878e-06}, {"group": "BiologicalProcess", "id": "GO:0010889", "label": "regulation of sequestering of triglyceride", "labels": "regulation of sequestering of triglyceride", "shape": "dot", "size": 10, "value": 2.9365354726628034e-06}, {"group": "BiologicalProcess", "id": "GO:0034447", "label": "very-low-density lipoprotein particle clearance", "labels": "very-low-density lipoprotein particle clearance", "shape": "dot", "size": 10, "value": 2.8657285816456756e-06}, {"group": "BiologicalProcess", "id": "GO:0034379", "label": "very-low-density lipoprotein particle assembly", "labels": "very-low-density lipoprotein particle assembly", "shape": "dot", "size": 10, "value": 3.001656938610924e-06}, {"group": "BiologicalProcess", "id": "GO:0009820", "label": "alkaloid metabolic process", "labels": "alkaloid metabolic process", "shape": "dot", "size": 10, "value": 2.753309670329903e-06}, {"group": "BiologicalProcess", "id": "GO:1901143", "label": "insulin catabolic process", "labels": "insulin catabolic process", "shape": "dot", "size": 10, "value": 2.921314397497099e-06}, {"group": "BiologicalProcess", "id": "GO:0045659", "label": "negative regulation of neutrophil differentiation", "labels": "negative regulation of neutrophil differentiation", "shape": "dot", "size": 10, "value": 3.0782665056960923e-06}, {"group": "BiologicalProcess", "id": "GO:0034377", "label": "plasma lipoprotein particle assembly", "labels": "plasma lipoprotein particle assembly", "shape": "dot", "size": 10, "value": 2.971647135375911e-06}, {"group": "BiologicalProcess", "id": "GO:0065005", "label": "protein-lipid complex assembly", "labels": "protein-lipid complex assembly", "shape": "dot", "size": 10, "value": 2.9997266971627646e-06}, {"group": "BiologicalProcess", "id": "GO:0071226", "label": "cellular response to molecule of fungal origin", "labels": "cellular response to molecule of fungal origin", "shape": "dot", "size": 10, "value": 2.9508472023407094e-06}, {"group": "BiologicalProcess", "id": "GO:0002238", "label": "response to molecule of fungal origin", "labels": "response to molecule of fungal origin", "shape": "dot", "size": 10, "value": 2.893883344117714e-06}, {"group": "BiologicalProcess", "id": "GO:0090527", "label": "actin filament reorganization", "labels": "actin filament reorganization", "shape": "dot", "size": 10, "value": 3.0616382491959685e-06}, {"group": "BiologicalProcess", "id": "GO:0051446", "label": "positive regulation of meiotic cell cycle", "labels": "positive regulation of meiotic cell cycle", "shape": "dot", "size": 10, "value": 3.1014063542518975e-06}, {"group": "BiologicalProcess", "id": "GO:0055088", "label": "lipid homeostasis", "labels": "lipid homeostasis", "shape": "dot", "size": 10, "value": 3.176947477830557e-06}, {"group": "BiologicalProcess", "id": "GO:0030048", "label": "actin filament-based movement", "labels": "actin filament-based movement", "shape": "dot", "size": 10, "value": 3.741875392254062e-06}, {"group": "Gene", "id": 3812, "label": "KIR3DL2", "labels": "KIR3DL2", "shape": "dot", "size": 10, "value": 2.768912734059844e-06}, {"group": "Gene", "id": 23683, "label": "PRKD3", "labels": "PRKD3", "shape": "dot", "size": 10, "value": 3.226592976406866e-06}, {"group": "Gene", "id": 346, "label": "APOC4", "labels": "APOC4", "shape": "dot", "size": 10, "value": 2.8556009018150994e-06}, {"group": "Gene", "id": 590, "label": "BCHE", "labels": "BCHE", "shape": "dot", "size": 10, "value": 2.7139679090737445e-06}, {"group": "Gene", "id": 3416, "label": "IDE", "labels": "IDE", "shape": "dot", "size": 10, "value": 2.8714836020071743e-06}, {"group": "Gene", "id": 3635, "label": "INPP5D", "labels": "INPP5D", "shape": "dot", "size": 10, "value": 3.141368829062685e-06}, {"group": "Gene", "id": 388325, "label": "SCIMP", "labels": "SCIMP", "shape": "dot", "size": 10, "value": 3.4037919773608237e-06}, {"group": "Gene", "id": 57091, "label": "CASS4", "labels": "CASS4", "shape": "dot", "size": 10, "value": 2.9632360715304963e-06}, {"group": "Gene", "id": 256006, "label": "ANKRD31", "labels": "ANKRD31", "shape": "dot", "size": 10, "value": 2.9170459075405434e-06}, {"group": "Gene", "id": 54749, "label": "EPDR1", "labels": "EPDR1", "shape": "dot", "size": 10, "value": 3.011989535019034e-06}, {"group": "Disease", "id": "DOID:10652", "label": "Alzheimer\u0027s disease", "labels": "Alzheimer\u0027s disease", "shape": "dot", "size": 10, "value": 2.826540303936377e-06}]);
+        edges = new vis.DataSet([{"from": "DOID:9744", "to": 10219, "value": 6.8463546068023e-07, "weight": 1}, {"from": "DOID:9744", "to": 25865, "value": 3.674146286544238e-07, "weight": 1}, {"from": "DOID:14118", "to": 4023, "value": 1.6102593795840625e-07, "weight": 1}, {"from": "DOID:14118", "to": 344, "value": 1.013820652967471e-07, "weight": 1}, {"from": "DOID:13809", "to": 338, "value": 9.435187564696032e-08, "weight": 1}, {"from": "DOID:13809", "to": 4023, "value": 9.912309196055846e-08, "weight": 1}, {"from": "DOID:13809", "to": 7391, "value": 8.377428184214134e-08, "weight": 1}, {"from": "DOID:10825", "to": 1577, "value": 2.0447114525272523e-07, "weight": 1}, {"from": "DOID:10230", "to": 348, "value": 1.9772396857085568e-07, "weight": 1}, {"from": "DOID:13810", "to": 63036, "value": 1.5247599241018523e-07, "weight": 1}, {"from": "DOID:9455", "to": 10221, "value": 1.333089420746001e-07, "weight": 1}, {"from": "DOID:14654", "to": 695, "value": 7.91826826385429e-08, "weight": 1}, {"from": "DOID:7148", "to": 116985, "value": 1.0315219509098933e-07, "weight": 1}, {"from": "DOID:12336", "to": 346673, "value": 8.401858112534693e-08, "weight": 1}, {"from": "DOID:10808", "to": 4650, "value": 8.119463409624616e-08, "weight": 1}, {"from": 10219, "to": "GO:0006968", "value": 6.8463546068023e-07, "weight": 1}, {"from": 25865, "to": "GO:0089700", "value": 3.674146286544238e-07, "weight": 1}, {"from": 4023, "to": "GO:0010890", "value": 2.0265769094571988e-07, "weight": 1}, {"from": 4023, "to": "GO:0010889", "value": 9.912309196055846e-08, "weight": 1}, {"from": 338, "to": "GO:0034447", "value": 2.785219843897947e-07, "weight": 1}, {"from": 338, "to": "GO:0034379", "value": 9.435187564696032e-08, "weight": 1}, {"from": 1577, "to": "GO:0009820", "value": 2.0447114525272523e-07, "weight": 1}, {"from": 348, "to": "GO:0034447", "value": 1.9772396857085568e-07, "weight": 1}, {"from": 63036, "to": "GO:1901143", "value": 1.5247599241018523e-07, "weight": 1}, {"from": 10221, "to": "GO:0045659", "value": 1.333089420746001e-07, "weight": 1}, {"from": 344, "to": "GO:0034377", "value": 1.2222213335410054e-07, "weight": 1}, {"from": 344, "to": "GO:0065005", "value": 1.013820652967471e-07, "weight": 1}, {"from": 695, "to": "GO:0071226", "value": 1.082191776375871e-07, "weight": 1}, {"from": 695, "to": "GO:0002238", "value": 7.91826826385429e-08, "weight": 1}, {"from": 116985, "to": "GO:0090527", "value": 1.0315219509098933e-07, "weight": 1}, {"from": 346673, "to": "GO:0051446", "value": 8.401858112534693e-08, "weight": 1}, {"from": 7391, "to": "GO:0055088", "value": 8.377428184214134e-08, "weight": 1}, {"from": 4650, "to": "GO:0030048", "value": 8.119463409624616e-08, "weight": 1}, {"from": "GO:0006968", "to": 3812, "value": 6.8463546068023e-07, "weight": 1}, {"from": "GO:0089700", "to": 23683, "value": 3.674146286544238e-07, "weight": 1}, {"from": "GO:0010890", "to": 346, "value": 2.0265769094571988e-07, "weight": 1}, {"from": "GO:0034447", "to": 346, "value": 1.9772396857085568e-07, "weight": 1}, {"from": "GO:0009820", "to": 590, "value": 2.0447114525272523e-07, "weight": 1}, {"from": "GO:0010889", "to": 346, "value": 9.912309196055846e-08, "weight": 1}, {"from": "GO:1901143", "to": 3416, "value": 1.5247599241018523e-07, "weight": 1}, {"from": "GO:0045659", "to": 3635, "value": 1.333089420746001e-07, "weight": 1}, {"from": "GO:0034377", "to": 346, "value": 1.2222213335410054e-07, "weight": 1}, {"from": "GO:0071226", "to": 388325, "value": 1.082191776375871e-07, "weight": 1}, {"from": "GO:0090527", "to": 57091, "value": 1.0315219509098933e-07, "weight": 1}, {"from": "GO:0065005", "to": 346, "value": 1.013820652967471e-07, "weight": 1}, {"from": "GO:0034379", "to": 346, "value": 9.435187564696032e-08, "weight": 1}, {"from": "GO:0051446", "to": 256006, "value": 8.401858112534693e-08, "weight": 1}, {"from": "GO:0055088", "to": 346, "value": 8.377428184214134e-08, "weight": 1}, {"from": "GO:0030048", "to": 54749, "value": 8.119463409624616e-08, "weight": 1}, {"from": "GO:0002238", "to": 388325, "value": 7.91826826385429e-08, "weight": 1}, {"from": 3812, "to": "DOID:10652", "value": 6.8463546068023e-07, "weight": 1}, {"from": 23683, "to": "DOID:10652", "value": 3.674146286544238e-07, "weight": 1}, {"from": 346, "to": "DOID:10652", "value": 8.377428184214134e-08, "weight": 1}, {"from": 590, "to": "DOID:10652", "value": 2.0447114525272523e-07, "weight": 1}, {"from": 3416, "to": "DOID:10652", "value": 1.5247599241018523e-07, "weight": 1}, {"from": 3635, "to": "DOID:10652", "value": 1.333089420746001e-07, "weight": 1}, {"from": 388325, "to": "DOID:10652", "value": 7.91826826385429e-08, "weight": 1}, {"from": 57091, "to": "DOID:10652", "value": 1.0315219509098933e-07, "weight": 1}, {"from": 256006, "to": "DOID:10652", "value": 8.401858112534693e-08, "weight": 1}, {"from": 54749, "to": "DOID:10652", "value": 8.119463409624616e-08, "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
